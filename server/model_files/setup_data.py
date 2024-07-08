@@ -40,7 +40,7 @@ def create_dataLoaders(path: Path,
     torch.manual_seed(42)
     pd.options.display.max_columns = 6
 
-    if (subset_percentage > 0 and subset_percentage < 1) or (test_split_percentage > 0 and test_split_percentage < 1):
+    if (subset_percentage <= 0 and subset_percentage > 1) or (test_split_percentage <= 0 and test_split_percentage > 1):
         print("ERROR: Cannot create dataloaders: invalid percentage values (not between 0 and 1)")
         return None
     
@@ -56,7 +56,7 @@ def create_dataLoaders(path: Path,
     counts = Counter()
 
     for _, row in train_df.iterrows():
-        counts.update(tokenize(row['text']))
+        counts.update(tokenize(tok, row['text']))
 
     #deleting infrequent words
     print("num_words before:",len(counts.keys()))
@@ -73,7 +73,7 @@ def create_dataLoaders(path: Path,
         words.append(word)
 
     # Adding column to dataframe for encoded version of text
-    train_df['encoded'] = train_df['text'].apply(lambda x: np.array(encode_sentence(x, vocab_index_dict)[0]))
+    train_df['encoded'] = train_df['text'].apply(lambda x: np.array(encode_sentence(x, vocab_index_dict, tok)[0]))
 
     #TODO: Remove; soley for testing
     print(Counter(train_df['label']))
@@ -87,6 +87,7 @@ def create_dataLoaders(path: Path,
     train_ds = ReviewsDataset(X_train, y_train)
     test_ds = ReviewsDataset(X_test, y_test)
 
+    print(train_df.head())
     vocab_size = len(words)
     #TODO: Remove, testing only
     print(vocab_size)
@@ -95,11 +96,13 @@ def create_dataLoaders(path: Path,
     if NUM_WORKERS < 1:
         NUM_WORKERS = 1
     
+    print(f"Num workers: {NUM_WORKERS}")
+
     train_dl = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=NUM_WORKERS)
     test_dl = DataLoader(test_ds, batch_size=batch_size, num_workers=NUM_WORKERS)
 
     # Not an ideal return call, but it works :/
-    return train_dl, test_dl, vocab_size
+    return (train_dl, test_dl, vocab_size)
 
 
 # This function removes unwanted characters and then turns each word into its own token (separating words out from the sentence)
@@ -117,8 +120,8 @@ def tokenize (tok, text):
 
 # Essentially we are turning our english sentences into tokens, then tokens into numbers through a vocab dictionary
 # N should be a little higher than the average length of input (review text length in this case)
-def encode_sentence(text, vocab_dict, N=140):
-    tokenized = tokenize(text)
+def encode_sentence(text, vocab_dict, tok, N=140):
+    tokenized = tokenize(tok, text)
     encoded = np.zeros(N, dtype=int)
 
     enc1 = np.array([vocab_dict.get(word, vocab_dict["UNK"]) for word in tokenized])
