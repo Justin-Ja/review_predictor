@@ -72,6 +72,7 @@ def create_dataLoaders(path: Path,
         vocab_index_dict[word] = len(words)
         words.append(word)
 
+    # Adding column to dataframe for encoded version of text
     train_df['encoded'] = train_df['text'].apply(lambda x: np.array(encode_sentence(x, vocab_index_dict)[0]))
 
     #TODO: Remove; soley for testing
