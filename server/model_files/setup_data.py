@@ -30,7 +30,7 @@ class ReviewsDataset(Dataset):
 
 #     return train_file_path
 
-# Creates train/test dataloaders along with returning vocab_size (needed to create LSTM_regression model instance)
+# Creates train/test dataloaders and returns it along with  vocab_size in a Tuple (vocab_size needed to create instance of LSTM guest)
 def create_dataLoaders(path: Path,
                     batch_size: int = 5000,
                     test_split_percentage: float = 0.25, 
@@ -75,7 +75,7 @@ def create_dataLoaders(path: Path,
     # Adding column to dataframe for encoded version of text
     train_df['encoded'] = train_df['text'].apply(lambda x: np.array(encode_sentence(x, vocab_index_dict, tok)[0]))
 
-    #TODO: Remove; soley for testing
+    print("Total count of each star rating (0-4):")
     print(Counter(train_df['label']))
 
     X = list(train_df['encoded'])
@@ -87,10 +87,7 @@ def create_dataLoaders(path: Path,
     train_ds = ReviewsDataset(X_train, y_train)
     test_ds = ReviewsDataset(X_test, y_test)
 
-    print(train_df.head())
     vocab_size = len(words)
-    #TODO: Remove, testing only
-    print(vocab_size)
 
     NUM_WORKERS = os.cpu_count() - 2 # Don't want to use all CPU cores on training (Trying not to obliterate my computer, ideally)
     if NUM_WORKERS < 1:
