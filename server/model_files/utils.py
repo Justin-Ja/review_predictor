@@ -51,3 +51,9 @@ def load_model_LSTM_regr(name: str,
     loaded_model_LSTM_regression.load_state_dict(torch.load(f=MODEL_SAVE_PATH))
 
     return loaded_model_LSTM_regression
+
+def determine_device() -> str:
+    if torch.cuda.is_available():
+        return "cuda"
+    else:
+        return "cpu"
