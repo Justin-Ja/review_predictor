@@ -161,3 +161,4 @@ cython_debug/
 
 #Personal additions
 temp*
+server/model_files/models/*
