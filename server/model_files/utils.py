@@ -3,9 +3,7 @@ import os
 from pathlib import Path
 from model_class import LSTM_regr
 
-def save_model(model: LSTM_regr) -> None:
-    name = input("Name the model: ")
-    
+def save_model(model: LSTM_regr) -> None:    
     # Create models directory 
     MODEL_PATH = Path("models")
     MODEL_PATH.mkdir(parents=True, exist_ok=True)
@@ -28,12 +26,11 @@ def save_model(model: LSTM_regr) -> None:
     # Save the parameters that were used to create the model 
     # (loading a model requires an instance initialized with the same values as the saved model)
     init_dict = model.get_init_args()
-    file_name = os.path.splitext(name)[0] + ".txt"
+    file_name = os.path.join(MODEL_PATH, os.path.splitext(name)[0] + ".dat")
     
     with open(file_name, 'w') as f:
-        for key, value in init_dict.items():
-            if value.isdigit():
-                f.write(f"{value}\n")
+        for _, value in init_dict.items():
+            f.write(f"{value}\n")
 
 # Loads a LSTM_regression model from a saved file
 def load_model_LSTM_regr(name: str, 
