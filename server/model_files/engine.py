@@ -14,48 +14,44 @@ def train_model(model: torch.nn.Module, train_dl, test_dl, epochs=10, lr=0.001, 
         total = 0
 
         for x, y, l in train_dl:
-
             x, y = x.to(device), y.to(device)
 
             x = x.long()
-            y = y.long()
+            y = y.float()
+        
             y_pred = model(x, l)
             optimizer.zero_grad()
-            loss = nn.functional.cross_entropy(y_pred, y)
-            loss.backward()
+            loss = nn.functional.mse_loss(y_pred, y.unsqueeze(-1))
+            loss.backward()    
             optimizer.step()
+
             sum_loss += loss.item()*y.shape[0]
             total += y.shape[0]
-        
-        val_loss, val_acc, val_rmse = __test_model(model, test_dl)
-        if epoch % 5 == 1:
-            print(f"Epoch: {epoch} |"
-                  f"val loss {val_loss:.3f} |"
-                  f"val loss {sum_loss/total:.3f} |"
-                  f"val accuracy {val_acc:.3f} |"
-                  f" and val rmse {val_rmse:.4f}"
-                )
 
-# Runs the testing portion of model training, and determines loss/accuracy/RMSE aka how well the model's doing
+        test_loss = __test_model(model, test_dl)
+
+        if epoch % 3 == 1:
+            print(f"Epoch: {epoch} | Train loss: {sum_loss/total:.4f} | Test loss: {test_loss:.4f} |")
+
+    # Once last print to see final state of model
+    print(f"\nFinal results:" f" | Train loss {sum_loss/total:.4f} |" f"Test loss {test_loss:.4f} |")
+
+
+# Runs the testing portion of model training, and determines MSE Loss - AKA how well the model's doing
 def __test_model(model, test_dl, device: torch.device = 'cpu'):
     model.eval()
-    correct = 0
     total = 0
     sum_loss = 0.0
-    sum_rmse = 0.0 # Root mean squared error
 
-    for x,y,l in test_dl:
+    for x, y, l in test_dl:
         x, y = x.to(device), y.to(device)
 
         x = x.long()
-        y = y.long()
-        y_hat = model(x,l)
+        y = y.float()
 
-        loss = nn.functional.cross_entropy(y_hat, y)
-        pred = torch.max(y_hat, 1)[1]
-        correct += (pred == y).float().sum()
+        y_hat = model(x, l)
+        loss = np.sqrt(nn.functional.mse_loss(y_hat, y.unsqueeze(-1)).item())
         total += y.shape[0]
         sum_loss += loss.item()*y.shape[0]
-        sum_rmse += np.sqrt(mean_squared_error(pred, y.unsqueeze(-1)))*y.shape[0]
-    
-    return sum_loss/total, correct/total, sum_rmse/total       
+
+    return sum_loss/total
