@@ -35,7 +35,7 @@ def create_dataLoaders(path: Path,
                     batch_size: int = 5000,
                     test_split_percentage: float = 0.25, 
                     subset_percentage: float = 0.0, 
-                    random_subset: bool = False):
+                    randomize_subset: bool = False):
     
     torch.manual_seed(42)
     pd.options.display.max_columns = 6
@@ -47,8 +47,8 @@ def create_dataLoaders(path: Path,
     train_df = pd.read_parquet(path)
 
     if subset_percentage > 0 and subset_percentage < 1:
-        if random_subset:
-            train_df = train_df.sample(frac=subset_percentage, random_state=1)
+        if not randomize_subset:
+            train_df = train_df.sample(frac=subset_percentage, random_state=1) #This sets the sample seed to 1, to have a consistent subset selection
         else:
             train_df = train_df.sample(frac=subset_percentage)
 
@@ -93,7 +93,7 @@ def create_dataLoaders(path: Path,
     if NUM_WORKERS < 1:
         NUM_WORKERS = 1
     
-    print(f"Num workers: {NUM_WORKERS}")
+    # print(f"Num workers: {NUM_WORKERS}")
 
     train_dl = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=NUM_WORKERS)
     test_dl = DataLoader(test_ds, batch_size=batch_size, num_workers=NUM_WORKERS)
