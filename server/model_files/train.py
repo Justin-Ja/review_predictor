@@ -17,6 +17,8 @@ parser.add_argument('-d', '--dropout', help='Dropout percentage, a value between
                     default=0.25, type=float)
 parser.add_argument('-s', '--subset', help='The percentage (value between 0 to 1) of the subset that will be used for training instead of the full set. Good for quick training purposes.\n', 
                     default=0.001, type=float)
+parser.add_argument('-t', '--testSplit', help='The percentage (value between 0 to 1) of the input data that will be split into test data. A value of 0.2 means 20%\ of the data will be test data\n', 
+                    default=0.2, type=float)
 parser.add_argument('-r', '--random', help='Boolean to determine if subsets created should be randomized. True is randomized subset elements, false is constant subset elements\n', 
                     default=False, type=bool)
 
@@ -26,6 +28,7 @@ EPOCHS: Final[int] = args.epochs
 HIDDEN_UNITS: Final[int] = args.units
 DROPOUT: Final[float] = args.dropout
 SUBSET_PERCENTAGE: Final[float] = args.subset
+TEST_SPLIT: Final[float] = args.testSplit
 RANDOMIZE: Final[bool] = args.random
 
 if(DROPOUT < 0 or DROPOUT > 1):
@@ -35,7 +38,11 @@ if(DROPOUT < 0 or DROPOUT > 1):
 device = determine_device()
 train_file_path = 'data/train-00000-of-00001.parquet'
 
-dataLoaders_and_vocab = create_dataLoaders(train_file_path, 5000, DROPOUT, 0.001, RANDOMIZE)
+dataLoaders_and_vocab = create_dataLoaders(train_file_path, 
+                                           batch_size=5000, 
+                                           test_split_percentage=0.25, 
+                                           subset_percentage=SUBSET_PERCENTAGE, 
+                                           randomize_subset=RANDOMIZE)
 
 train_dl = dataLoaders_and_vocab[0]
 test_dl = dataLoaders_and_vocab[1]
