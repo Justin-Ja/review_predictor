@@ -2,7 +2,7 @@ import torch
 from torch import nn
 
 # A LSTM model used to predict review scores through regression
-# Regression improves model accuracy by allowing decimal (float) guesses to be made by the model, at cost of training speed
+# Regression improves model accuracy by allowing decimal (float) guesses to be made by the model (compared to only int), at cost of training speed
 class LSTM_regr(torch.nn.Module) :
     def __init__(self, vocab_size, embedding_dim, hidden_dim, dropout=0.2, hidden_layers=1) :
         super().__init__()
@@ -18,6 +18,7 @@ class LSTM_regr(torch.nn.Module) :
         self.linear = nn.Linear(hidden_dim, 1)
         self.dropout = nn.Dropout(dropout)
         
+        # Forward pass. length_x could be used to create padding management, but that would be a future worry/update
     def forward(self, x, length_x):
         # x = self.embeddings(x)
         # x = self.dropout(x)
