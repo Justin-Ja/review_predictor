@@ -33,18 +33,29 @@ def save_model(model: LSTM_regr) -> None:
             f.write(f"{value}\n")
 
 # Loads a LSTM_regression model from a saved file
-def load_model_LSTM_regr(name: str, 
-                         vocab_size: int, 
-                         embedding_dim: int, 
-                         hidden_dim: int, 
-                         dropout = 0.2, 
-                         hidden_layers = 1) -> LSTM_regr:
+def load_model_LSTM_regr() -> LSTM_regr:
     
     MODEL_PATH = Path("models")
-    MODEL_SAVE_PATH = MODEL_PATH / name
+    MODEL_NAME = input("Give name of model to load: ")
+    tempName = os.path.splitext(MODEL_NAME)[0] + ".dat"
+    MODEL_INFO_PATH = MODEL_PATH / tempName
+    MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
 
-    #TODO: Determine if these init_args should be read from file or expected from user to pass in
-    loaded_model_LSTM_regression = LSTM_regr(vocab_size, embedding_dim, hidden_dim, dropout, hidden_layers)
+    info_numbers = []
+
+    with open(MODEL_INFO_PATH, 'r') as file:
+        for line in file:
+            number = line.strip()
+            if number:
+                info_numbers.append(float(number) if '.' in number else int(number))
+
+    vocab_size = info_numbers[0]
+    em_dim = info_numbers[1]
+    hidden_dim = info_numbers[2]
+    dropout =  info_numbers[3]
+    hidden_layers = info_numbers[4]
+
+    loaded_model_LSTM_regression = LSTM_regr(vocab_size, em_dim, hidden_dim, dropout, hidden_layers)
     loaded_model_LSTM_regression.load_state_dict(torch.load(f=MODEL_SAVE_PATH))
 
     return loaded_model_LSTM_regression
