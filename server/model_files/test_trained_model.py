@@ -1,24 +1,17 @@
 from pathlib import Path
-import os
 import torch
-from model_class import LSTM_regr
 import pandas as pd
 from setup_data import create_dataLoaders
-from utils import determine_device, load_model_LSTM_regr
+from utils import load_model_LSTM_regr
 import numpy as np
 import spacy 
 from collections import Counter
 from setup_data import encode_sentence
 
 
-
 #Setup data reading and model loading
 torch.manual_seed(42)
 loaded_model_LSTM_regression = load_model_LSTM_regr()
-
-# Load the saved model
-# loaded_model_LSTM_regression = LSTM_regr(vocab_size, info_numbers[1], info_numbers[2], info_numbers[3], info_numbers[4])
-# loaded_model_LSTM_regression.load_state_dict(torch.load(f=MODEL_SAVE_PATH))
 
 test_file_path = 'data/test-00000-of-00001.parquet'
 
@@ -68,11 +61,6 @@ with torch.inference_mode():
         x = x.long()
         y = y.long()
         y_hat = loaded_model_LSTM_regression(x,l)
-
-        # pred = torch.max(y_hat, 1)[1]
-        # print(pred)
-        # correct += (pred == y).float().sum()
-        # sum_rmse += np.sqrt(mean_squared_error(pred, y.unsqueeze(-1)))*y.shape[0]
         
         original_value = test_subset.iloc[i, 0]
         print(f"Original Y/label/review score: {original_value + 1}")
@@ -81,21 +69,3 @@ with torch.inference_mode():
         print()
 
         i = i + 1
-
-
-
-# # Take user input
-# userStr = input("Enter a review: ")
-
-# # Preprocess the user input
-# encoded_input, input_length = encode_sentence(userStr, vocab2index)
-
-# # Convert to tensor
-# input_tensor = torch.from_numpy(encoded_input).unsqueeze(0).long()
-
-# # Evaluate the model
-# with torch.inference_mode():
-#     loaded_model_LSTM_regression.eval()
-#     y_hat = loaded_model_LSTM_regression(input_tensor, torch.tensor([input_length]))
-#     # predicted_score = y_hat.item() + 1  # Convert back to 1-5 scale
-#     print(f"Predicted review score (1-5 scale): {y_hat + 1}")
