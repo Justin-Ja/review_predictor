@@ -3,13 +3,18 @@ from flask import Flask, request, render_template, send_from_directory
 from markupsafe import escape
 
 #flask --app server/server.py run
+#use python3 server.py
+
 temp.foo_bar(12)
 
-app = Flask(__name__, static_folder='../client/src')
+app = Flask(__name__, 
+            static_url_path='',
+            static_folder='../client/build',
+            template_folder='build')
 
 @app.route("/") #OR can do app.get
 def serve():
-    return send_from_directory(app.static_folder, "index.tsx") #Gotta figure out how to load html/jsx files for frontend
+    return send_from_directory(app.static_folder, "index.html") #Gotta figure out how to load html/jsx files for frontend
 
 @app.route("/<name>")
 def hello(name):
@@ -23,5 +28,5 @@ def login():
         return "show_the_login_form"
     
 
-# if __name__ == "__main__":
-#     app.run()
+if __name__ == "__main__":
+    app.run()
