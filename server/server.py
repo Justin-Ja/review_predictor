@@ -14,7 +14,7 @@ app = Flask(__name__,
 
 @app.route("/") #OR can do app.get
 def serve():
-    return send_from_directory(app.static_folder, "index.html") #Gotta figure out how to load html/jsx files for frontend
+    return send_from_directory(app.static_folder, "index.html")
 
 @app.route("/<name>")
 def hello(name):

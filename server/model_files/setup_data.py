@@ -10,7 +10,7 @@ from sklearn.model_selection import train_test_split
 from torch.utils.data import Dataset, DataLoader
 from collections import Counter
 
-# gonna need a proper way of downloading the data. not good idea just to upload the parquet file directly to github
+# TODO: gonna need a proper way of downloading the data. not good idea just to upload the parquet file directly to github
 # possibly clone it? test in a completely separate folder first. Worst case just upload the files to github, theyre 323 mb
 train_file_path = 'data/train-00000-of-00001.parquet'
 test_file_path = 'data/test-00000-of-00001.parquet'
