@@ -1,11 +1,8 @@
-from model_files import temp
 from flask import Flask, request, render_template, send_from_directory
 from markupsafe import escape
 
 #flask --app server/server.py run
 #use python3 server.py
-
-temp.foo_bar(12)
 
 app = Flask(__name__, 
             static_url_path='',
@@ -27,6 +24,14 @@ def login():
     else:
         return "show_the_login_form"
     
+@app.route('/data')
+def get_example():
+    return {
+        'Name':"geek", 
+        "Age":"22",
+        "Date":"x", 
+        "programming":"python"
+    }
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
