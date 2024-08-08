@@ -1,4 +1,3 @@
-from pathlib import Path
 import torch
 import pandas as pd
 from setup_data import create_dataLoaders
@@ -8,17 +7,27 @@ import spacy
 from collections import Counter
 from setup_data import encode_sentence
 
+# This file is not used directly in the server/frontend component of the app
+# This is for final testing of trained models to test the model more closely to what happens in the app
+# See get_review_score_and_prediction for 
 
 #Setup data reading and model loading
 torch.manual_seed(42)
-loaded_model_LSTM_regression = load_model_LSTM_regr()
+
+while True:
+    model_name = input("Give name of model to load: ")
+    if model_name.endswith(".pth") or model_name.endswith(".pt"):
+        break
+    else:
+        print("Invalid name. Model name should end with '.pt' or '.pth'.")
+
+loaded_model_LSTM_regression = load_model_LSTM_regr(model_name)
 
 test_file_path = 'data/test-00000-of-00001.parquet'
 
 #TODO: Argparse the subset % and randomization. 
 # We set batch size to 1 since batch size is needed in training but we only want to view 10 or less reviews to see how the model is doing
 dataLoaders_and_vocab = create_dataLoaders(test_file_path, 1, 0.25, 0.00025, True)
-train_dl = dataLoaders_and_vocab[0]
 test_dl = dataLoaders_and_vocab[1]
 
 
@@ -36,8 +45,7 @@ counts = Counter()
 print("num_words before:",len(counts.keys()))
 for word in list(counts):
     if counts[word] < 2:
-        pass
-        #del counts[word]
+        del counts[word]
 print("num_words after:",len(counts.keys()))
 
 vocab2index = {"":0, "UNK":1}
