@@ -33,13 +33,12 @@ def save_model(model: LSTM_regr) -> None:
             f.write(f"{value}\n")
 
 # Loads a LSTM_regression model from a saved file
-def load_model_LSTM_regr() -> LSTM_regr:
+def load_model_LSTM_regr(model_name: str) -> LSTM_regr:
     
     MODEL_PATH = Path("models")
-    MODEL_NAME = input("Give name of model to load: ")
-    tempName = os.path.splitext(MODEL_NAME)[0] + ".dat"
+    tempName = os.path.splitext(model_name)[0] + ".dat"
     MODEL_INFO_PATH = MODEL_PATH / tempName
-    MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
+    MODEL_SAVE_PATH = MODEL_PATH / model_name
 
     info_numbers = []
 
