@@ -17,8 +17,6 @@ def get_review_score_pred(model_name: str):
 
     subset = get_encoded_review(TEST_FILE_PATH)
 
-    print(subset)
-    print("lmao")
     review_text = str(subset['text'].iloc[0])
     score = int(subset['label'].iloc[0]) + 1   # Convert back to 1-5 scale from 0-4 so add +1
     input_length = int(subset['review_length'].iloc[0])
@@ -32,14 +30,8 @@ def get_review_score_pred(model_name: str):
     with torch.inference_mode():
         loaded_model_LSTM_regression.eval()
         pred_score = loaded_model_LSTM_regression(input_tensor, torch.tensor([input_length]))
-        print(f"Predicted review score (1-5 scale): {pred_score + 1}") 
-        print(pred_score.item())
-        print(type(pred_score.item()))
         pred_score = (pred_score.item() + 1) # Convert back to 1-5 scale
     
-    print(review_text)
-    print(score)
-    print(pred_score)
     return {
         'text': review_text,
         'score': score,
