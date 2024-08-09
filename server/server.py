@@ -1,8 +1,19 @@
 from flask import Flask, request, render_template, send_from_directory
 from markupsafe import escape
+from model_files import setup_data, utils
 
 #flask --app server/server.py run
 #use python3 server.py
+
+#Consts/setup vars are stored here
+#TODO: probably moving this to separate file, CONSTANTS.
+MODEL_NAME = "dummy.pth"
+test_file_path = 'model_files/data/test-00000-of-00001.parquet'
+
+# We create this on setup before anything else
+#TODO: update the split to have all in on one dl. Fix !!! issue in get first then update this
+# dataLoaders_and_vocab = setup_data.create_dataLoaders(test_file_path, 1, 0.25, 0.00020, True)
+# test_dl = dataLoaders_and_vocab[1]
 
 app = Flask(__name__, 
             static_url_path='',
@@ -26,11 +37,16 @@ def login():
     
 @app.route('/data')
 def get_example():
+    result = foo_bar() #This will become get_review_score etc
+    return result
+
+def foo_bar(): #delete 
+    x = 1 + 2
     return {
-        'Name':"geek", 
+       'Name':"geek", 
         "Age":"22",
-        "Date":"x", 
-        "programming":"python"
+        "Date": x, 
+        "programming":"python" 
     }
 
 if __name__ == "__main__":

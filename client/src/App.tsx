@@ -1,10 +1,35 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './styles/App.css'; 
 import Header from './components/Header';
 // The app is gonna be super ugly rn. Thats gonna stay until api is up
 // or when it actually works :|
 
 function App() {
+
+   //current hooks are for testing API stuff
+    const [data, setdata] = useState({
+      name: "",
+      age: 0,
+      date: "",
+      programming: "",
+  });
+
+  const fetchData = () => {
+      // Using fetch to fetch the api from 
+      // flask server it will be redirected to proxy
+      fetch("/data").then((res) =>
+          res.json().then((data) => {
+              // Setting a data from api
+              setdata({
+                  name: data.Name,
+                  age: data.Age,
+                  date: data.Date,
+                  programming: data.programming,
+              });
+          })
+      );
+  };
+
   return (
     <div className="App">
       <header>
@@ -24,7 +49,7 @@ function App() {
         </div>
 
         <div>
-          <button>1 star</button>
+          <button onClick={fetchData}>1 star</button>
           <button>Text 1</button>
           <button>Text 1</button>
           <button>Text 1</button>
@@ -38,6 +63,13 @@ function App() {
         <div>
           AI Score: 12434
         </div>
+      </div>
+
+      <div>
+        <p>{data.name}</p>
+        <p>{data.age}</p>
+        <p>{data.date}</p>
+        <p>{data.programming}</p>
       </div>
       
     </div>
