@@ -13,6 +13,7 @@ from setup_data import encode_sentence
 
 #Setup data reading and model loading
 torch.manual_seed(42)
+MODEL_PATH = 'models'
 
 while True:
     model_name = input("Give name of model to load: ")
@@ -21,7 +22,7 @@ while True:
     else:
         print("Invalid name. Model name should end with '.pt' or '.pth'.")
 
-loaded_model_LSTM_regression = load_model_LSTM_regr(model_name)
+loaded_model_LSTM_regression = load_model_LSTM_regr(model_name, MODEL_PATH)
 
 test_file_path = 'data/test-00000-of-00001.parquet'
 

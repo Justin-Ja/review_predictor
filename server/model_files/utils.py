@@ -1,7 +1,7 @@
 import torch
 import os
 from pathlib import Path
-from model_class import LSTM_regr
+from .model_class import LSTM_regr
 
 def save_model(model: LSTM_regr) -> None:    
     # Create models directory 
@@ -32,13 +32,12 @@ def save_model(model: LSTM_regr) -> None:
         for _, value in init_dict.items():
             f.write(f"{value}\n")
 
-# Loads a LSTM_regression model from a saved file
-def load_model_LSTM_regr(model_name: str) -> LSTM_regr:
+# Loads a LSTM_regression model from a saved file. Function is used at different directory levels, so model_path is passed in
+def load_model_LSTM_regr(model_name: str, model_path: str) -> LSTM_regr:
     
-    MODEL_PATH = Path("models")
     tempName = os.path.splitext(model_name)[0] + ".dat"
-    MODEL_INFO_PATH = MODEL_PATH / tempName
-    MODEL_SAVE_PATH = MODEL_PATH / model_name
+    MODEL_INFO_PATH = model_path / tempName
+    MODEL_SAVE_PATH = model_path / model_name
 
     info_numbers = []
 
