@@ -8,12 +8,12 @@ function App() {
 
    //current hooks are for testing API stuff
     const [data, setdata] = useState({
-      name: "",
-      age: 0,
-      date: "",
-      programming: "",
+      text: "",
+      score: 0,
+      pred_score: 0.0,
   });
 
+  //TODO: probably move all calls to API into own file. That can be done later.
   const fetchData = () => {
       // Using fetch to fetch the api from 
       // flask server it will be redirected to proxy
@@ -21,10 +21,9 @@ function App() {
           res.json().then((data) => {
               // Setting a data from api
               setdata({
-                  name: data.Name,
-                  age: data.Age,
-                  date: data.Date,
-                  programming: data.programming,
+                  text: data.text,
+                  score: data.score,
+                  pred_score: data.pred_score,
               });
           })
       );
@@ -66,10 +65,9 @@ function App() {
       </div>
 
       <div>
-        <p>{data.name}</p>
-        <p>{data.age}</p>
-        <p>{data.date}</p>
-        <p>{data.programming}</p>
+        <p>{data.text}</p>
+        <p>{data.score}</p>
+        <p>{data.pred_score}</p>
       </div>
       
     </div>

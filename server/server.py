@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, send_from_directory
 from markupsafe import escape
 from model_files import setup_data, utils
+from get_review_score_and_prediction import get_review_score_pred
 
 #flask --app server/server.py run
 #use python3 server.py
@@ -36,18 +37,11 @@ def login():
         return "show_the_login_form"
     
 @app.route('/data')
-def get_example():
-    result = foo_bar() #This will become get_review_score etc
+def get_data():
+    result = get_review_score_pred(MODEL_NAME) #This will become get_review_score etc
     return result
 
-def foo_bar(): #delete 
-    x = 1 + 2
-    return {
-       'Name':"geek", 
-        "Age":"22",
-        "Date": x, 
-        "programming":"python" 
-    }
+
 
 if __name__ == "__main__":
     app.run(debug=True)

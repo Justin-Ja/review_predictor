@@ -6,8 +6,8 @@ import numpy as np
 import spacy 
 from collections import Counter
 
-MODEL_PATH = Path('model_files/models')
-TEST_FILE_PATH = 'model_files/data/test-00000-of-00001.parquet'
+MODEL_PATH = Path('server/model_files/models')
+TEST_FILE_PATH = 'server/model_files/data/test-00000-of-00001.parquet'
 
 # Returns an object containing a review's text, label (score) and the predicted score
 # Assumes that model_name ends with .pth or .pt, should be a constant value that is passed in.
@@ -15,14 +15,11 @@ def get_review_score_pred(model_name: str):
 
     loaded_model_LSTM_regression = utils.load_model_LSTM_regr(model_name, MODEL_PATH)
 
-    subset = get_encoded_review(TEST_FILE_PATH)
+    subset = _get_encoded_review(TEST_FILE_PATH)
 
     review_text = str(subset['text'].iloc[0])
     score = int(subset['label'].iloc[0]) + 1   # Convert back to 1-5 scale from 0-4 so add +1
     input_length = int(subset['review_length'].iloc[0])
-
-
-    print(subset['encoded'].iloc[0])
 
     # Convert to tensor
     input_tensor = torch.from_numpy(subset['encoded'].iloc[0]).unsqueeze(0).long()
@@ -42,7 +39,7 @@ def get_review_score_pred(model_name: str):
 # This function gets a review and gets the encoded version of said review for ML evaluation
 # See setup_data.py for more detail on what is happening
 # We want only one review, as every time we want a new review/round, we can just hit the related endpoint and run this again
-def get_encoded_review(file_path):
+def _get_encoded_review(file_path):
     test_df = pd.read_parquet(file_path)
 
     subset = test_df.sample(frac=(5/float(len(test_df))))
