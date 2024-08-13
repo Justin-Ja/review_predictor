@@ -1,16 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import './styles/App.css'; 
 import Header from './components/Header';
-// The app is gonna be super ugly rn. Thats gonna stay until api is up
-// or when it actually works :|
 
 function App() {
 
-   //current hooks are for testing API stuff
-    const [data, setdata] = useState({
-      text: "",
-      score: 0,
-      pred_score: 0.0,
+  const [selectedStars, setSelectedStars] = useState(0)
+
+  const [data, setdata] = useState({
+    text: "",
+    score: 0,
+    pred_score: 0.0,
   });
 
   //TODO: probably move all calls to API into own file. That can be done later.
@@ -39,7 +38,6 @@ function App() {
       <header>
         {/* HEADER -> Should be some form of nav bar/navigation */}
         
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
         <a href='https://www.unbc.ca/sites/default/files/sections/web/links.pdf'>Links here</a>
       </header>
       <Header/>
@@ -53,14 +51,14 @@ function App() {
         </div>
 
         <div>
-          <button onClick={fetchData}>1 star</button>
+          {/* <button onClick={fetchData}>1 star</button>
           <button>Text 1</button>
           <button>Text 1</button>
           <button>Text 1</button>
-          <button>Text 1</button>
+          <button>Text 1</button> */}
+          {/* {<StarCounter/>} */}
         </div>
 
-        {/* should be same line */}
         <div>
           Your Score: 8
         </div>
@@ -75,6 +73,8 @@ function App() {
         <p>{data.pred_score}</p>
       </div>
       
+      <button onClick={fetchData}>Submit/Get Results</button>
+
     </div>
   );
 }
