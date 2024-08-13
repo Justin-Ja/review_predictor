@@ -29,6 +29,20 @@ function App() {
       );
   };
 
+  const addLineBreak = (str: string) =>
+    str.split('\n\n').map((subStr) => {
+      return (
+        <>
+          {subStr}
+          <br />
+        </>
+      );
+    });
+    
+    const cleanText = (input: string) => {
+      input = input.replace(/\\"/g, '"')
+      return input.replace(/\\n/g, '\n');
+    };
   return (
     <div className="App">
       <header>
@@ -65,7 +79,7 @@ function App() {
       </div>
 
       <div>
-        <p>{data.text}</p>
+        <p>{cleanText(data.text)}</p>
         <p>{data.score}</p>
         <p>{data.pred_score}</p>
       </div>
