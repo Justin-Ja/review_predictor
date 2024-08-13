@@ -28,21 +28,12 @@ function App() {
           })
       );
   };
-
-  const addLineBreak = (str: string) =>
-    str.split('\n\n').map((subStr) => {
-      return (
-        <>
-          {subStr}
-          <br />
-        </>
-      );
-    });
     
-    const cleanText = (input: string) => {
-      input = input.replace(/\\"/g, '"')
-      return input.replace(/\\n/g, '\n');
-    };
+  const cleanText = (input: string) => {
+    input = input.replace(/\\"/g, '"')
+    return input.replace(/\\n/g, '\n');
+  };
+
   return (
     <div className="App">
       <header>
