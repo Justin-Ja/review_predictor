@@ -9,22 +9,31 @@ def train_model(model: torch.nn.Module, train_dl, test_dl, epochs=10, lr=0.001, 
     optimizer = torch.optim.Adam(parameters, lr=lr)
    
     for epoch in range(epochs):
+        #Setup and set model to train
         model.train()
         sum_loss = 0.0
         total = 0
 
+        #Batch training, x is review text, y is label, l is x length
         for x, y, l in train_dl:
-            x, y = x.to(device), y.to(device)
 
+            #Send info to GPU if avaliable, and convert to proper datatypes
+            x, y = x.to(device), y.to(device)
             x = x.long()
             y = y.float()
         
+            #Forward pass
             y_pred = model(x, l)
-            optimizer.zero_grad()
+            
+            #Loss calculation
             loss = nn.functional.mse_loss(y_pred, y.unsqueeze(-1))
+            
+            #Zero gradients, backpropagation on loss, update optimizer
+            optimizer.zero_grad()
             loss.backward()    
             optimizer.step()
 
+            #Calc total loss for the batch
             sum_loss += loss.item()*y.shape[0]
             total += y.shape[0]
 
