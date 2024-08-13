@@ -73,7 +73,7 @@ def create_dataLoaders(path: Path,
         words.append(word)
 
     # Adding column to dataframe for encoded version of text
-    train_df['encoded'] = train_df['text'].apply(lambda x: np.array(encode_sentence(x, vocab_index_dict, tok)[0]))
+    train_df['encoded'] = train_df['text'].apply(lambda x: np.array(encode_sentence(x, vocab_index_dict, tok, int(train_df['review_length'].iloc[0]))[0]))
 
     print("Total count of each star rating (0-4):")
     print(Counter(train_df['label']))
@@ -104,11 +104,15 @@ def create_dataLoaders(path: Path,
 
 # This function removes unwanted characters and then turns each word into its own token (separating words out from the sentence)
 def tokenize (tok, text):
+    
+    #Removes any newlines that will be treated as literal chars '\' 'n'
+    text = re.sub("/\\n+/g/", ' ', text)
+
     #Remove non-ascii chars
     text = re.sub(r"[^\x00-\x7F]+", " ", text)
 
     #Sets up regex to remove punctuation and numbers and some whitespace chars
-    regex = re.compile('[' + re.escape(string.punctuation) + '0-9\\r\\t\\n]')
+    regex = re.compile('[' + re.escape(string.punctuation) + '\\r\\t\n]')
     
     nopunct = regex.sub(" ", text.lower())
 

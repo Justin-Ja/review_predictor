@@ -6,6 +6,7 @@ import numpy as np
 import spacy 
 from collections import Counter
 
+#TODO: Move out to server handling this
 MODEL_PATH = Path('server/model_files/models')
 TEST_FILE_PATH = 'server/model_files/data/test-00000-of-00001.parquet'
 
@@ -17,13 +18,15 @@ def get_review_score_pred(model_name: str):
 
     subset = _get_encoded_review(TEST_FILE_PATH)
 
+    #Extract all needed values from the dataframe
     review_text = str(subset['text'].iloc[0])
     score = int(subset['label'].iloc[0]) + 1   # Convert back to 1-5 scale from 0-4 so add +1
     input_length = int(subset['review_length'].iloc[0])
 
     # Convert to tensor
     input_tensor = torch.from_numpy(subset['encoded'].iloc[0]).unsqueeze(0).long()
-    
+
+    # Get predicted value from review_text
     with torch.inference_mode():
         loaded_model_LSTM_regression.eval()
         pred_score = loaded_model_LSTM_regression(input_tensor, torch.tensor([input_length]))
@@ -42,7 +45,7 @@ def get_review_score_pred(model_name: str):
 def _get_encoded_review(file_path):
     test_df = pd.read_parquet(file_path)
 
-    subset = test_df.sample(frac=(5/float(len(test_df))))
+    subset = test_df.sample(frac=(1/float(len(test_df))))
     tok = spacy.load('en_core_web_sm')
 
     subset['review_length'] = subset['text'].apply(lambda x: len(x.split()))
@@ -52,9 +55,9 @@ def _get_encoded_review(file_path):
             counts.update(setup_data.tokenize(tok, row['text']))
 
     # TODO: If we're only passing in one review, do we want to remove uncommon words? we cut a review with 110 words to 35, might mess with results
-    for word in list(counts):
-        if counts[word] < 2:
-            del counts[word]
+    # for word in list(counts):
+    #     if counts[word] < 2:
+    #         del counts[word]
 
     vocab2index = {"":0, "UNK":1}
     words = ["", "UNK"]
@@ -62,7 +65,7 @@ def _get_encoded_review(file_path):
         vocab2index[word] = len(words)
         words.append(word)
 
-    subset['encoded'] = subset['text'].apply(lambda x: np.array(setup_data.encode_sentence(x, vocab2index, tok)[0]))
+    subset['encoded'] = subset['text'].apply(lambda x: np.array(setup_data.encode_sentence(x, vocab2index, tok, N = int(subset['review_length'].iloc[0]))[0]))
 
     return subset
 
