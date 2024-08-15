@@ -1,6 +1,5 @@
 from flask import Flask, request, render_template, send_from_directory
 from markupsafe import escape
-from model_files import setup_data, utils
 from get_review_score_and_prediction import get_review_score_pred
 
 #flask --app server/server.py run
@@ -25,23 +24,24 @@ app = Flask(__name__,
 def serve():
     return send_from_directory(app.static_folder, "index.html")
 
+#TEsting server stuff
 @app.route("/<name>")
 def hello(name):
     return f"Hello, {escape(name)}!" #Prevent script injecting
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        return "do_the_login()"
-    else:
-        return "show_the_login_form"
-    
+# @app.route('/login', methods=['GET', 'POST'])
+# def login():
+#     if request.method == 'POST':
+#         return "do_the_login()"
+#     else:
+#         return "show_the_login_form"
+
+# So do we add in methods? Probably. That would be a good thing. 
+
 @app.route('/data')
 def get_data():
-    result = get_review_score_pred(MODEL_NAME) #This will become get_review_score etc
+    result = get_review_score_pred(MODEL_NAME)
     return result
-
-
 
 if __name__ == "__main__":
     app.run(debug=True)
