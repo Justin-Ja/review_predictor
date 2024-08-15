@@ -39,6 +39,9 @@ function App() {
   //need to pass in star value here
   // Calculates the user/model score based on how far off they are from the real score/label
   const calcScore = (realScore: number, pred_score: number, userGuess: number) =>  {
+    console.log(userGuess)
+    console.log("REAL " + realScore)
+    console.log(pred_score)
     let modelDiff = Math.abs(realScore - pred_score)
     let userDiff = Math.abs(realScore - userGuess)
 
@@ -71,6 +74,12 @@ function App() {
             Im Text that will be updated! Review here!
           </p>
         </div>
+
+        <StarCounter
+          selectedStars={selectedStars}
+          setSelectedStars={setSelectedStars}
+        />
+
         <div>
           Your Score: {scoreUser}
         </div>

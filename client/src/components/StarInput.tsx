@@ -10,8 +10,19 @@ const StarCounter: React.FC<StarCounterProps> = ({selectedStars, setSelectedStar
         setSelectedStars(starCount);
       };
 
+      //TODO: Make a better star. or import UI library (no half stars bc all labels are ints. I guess half could be allowed but it be impossible to guess 1.5 and the actual score to be 1.5)
     return (
-        <div>hello theressdf</div>
+        <>
+        {[1, 2, 3, 4, 5].map((star) => (
+          <span 
+            key={star} 
+            onClick={() => handleStarClick(star)} 
+            style={{ cursor: 'pointer', color: star <= selectedStars ? 'gold' : 'gray' }}
+          >
+            ★
+          </span>
+        ))}
+      </>
     )
 }
 
