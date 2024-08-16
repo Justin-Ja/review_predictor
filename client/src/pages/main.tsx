@@ -15,7 +15,6 @@ function Main() {
   const [scoreUser, setScoreUser] = useState(0)
   const [selectedStars, setSelectedStars] = useState(0)
 
-
   //TODO: probably move all calls to API into own file. That can be done later.
   const fetchData = () => {
       // Using fetch to fetch the api from 
@@ -74,7 +73,7 @@ function Main() {
       <div>
         <div>
           <p>
-            Im Text that will be updated! Review here!
+            {cleanText(data.text)}
           </p>
         </div>
 
@@ -92,7 +91,6 @@ function Main() {
       </div>
 
       <div>
-        <p>{cleanText(data.text)}</p>
         <p>{data.score}</p>
         <p>{data.pred_score}</p>
       </div>
