@@ -25,10 +25,8 @@ app = Flask(__name__,
 @app.route("/<path:path>")
 def serve(path):
     if path != "" and path.exists(path.join(app.static_folder, path)):
-        print("je")
         return send_from_directory(app.static_folder, path)
     else:
-        print("jdsfgsdgdsfge")
         return send_from_directory(app.static_folder, 'index.html')
 
 
