@@ -61,14 +61,12 @@ function Main() {
     }
   }
 
-  
-
   return (
     <div className="App">
       <header>
         {/* HEADER -> Should be some form of nav bar/navigation */}
         
-        <a href='https://www.unbc.ca/sites/default/files/sections/web/links.pdf'>Links here</a>
+        <a href='/info'>Links here</a>
       </header>
       <Header/>
       {/* Any level divs should become components. For now keep here and transfer when planning is done. Also look into using fragments <> and 

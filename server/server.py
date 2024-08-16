@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, send_from_directory
 from markupsafe import escape
 from get_review_score_and_prediction import get_review_score_pred
+from os import path
 
 #flask --app server/server.py run
 #use python3 server.py
@@ -20,9 +21,16 @@ app = Flask(__name__,
             static_folder='../client/build',
             template_folder='build')
 
-@app.route("/") #OR can do app.get
-def serve():
-    return send_from_directory(app.static_folder, "index.html")
+@app.route("/", defaults={'path': ''})
+@app.route("/<path:path>")
+def serve(path):
+    if path != "" and path.exists(path.join(app.static_folder, path)):
+        print("je")
+        return send_from_directory(app.static_folder, path)
+    else:
+        print("jdsfgsdgdsfge")
+        return send_from_directory(app.static_folder, 'index.html')
+
 
 #TEsting server stuff
 @app.route("/<name>")
