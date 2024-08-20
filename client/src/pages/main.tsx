@@ -14,6 +14,7 @@ function Main() {
   const [scoreModel, setScoreModel] = useState(0)
   const [scoreUser, setScoreUser] = useState(0)
   const [selectedStars, setSelectedStars] = useState(0)
+  const [hasUserGuessed, setHasUserGuessed] = useState(false)
 
   //TODO: probably move all calls to API into own file. That can be done later.
   const fetchData = () => {
@@ -70,7 +71,7 @@ function Main() {
       <Header/>
       {/* Any level divs should become components. For now keep here and transfer when planning is done. Also look into using fragments <> and 
       more accessible segments (not divs, section, nav, whatever else) */}
-      <div>
+      <>
         <div>
           <p>
             {cleanText(data.text)}
@@ -88,17 +89,20 @@ function Main() {
         <div>
           AI Score: {scoreModel}
         </div>
-      </div>
+      </>
 
-      <div>
+      <>
         <p>{data.score}</p>
         <p>{data.pred_score}</p>
-      </div>
+      </>
       
       {/*TODO: Either disable buttons or hide one button at a time */}
-      <button onClick={() => calcScore(data.score, data.pred_score, selectedStars)}>Submit user Input</button>
-      <button onClick={fetchData}>Start/Next Prompt</button>
-
+      if(hasUserGuessed){
+        <button onClick={() => calcScore(data.score, data.pred_score, selectedStars)}>Submit user Input</button>
+      } else{
+        <button onClick={fetchData}>Start/Next Prompt</button>
+      }
+      
     </div>
   );
 }

@@ -1,5 +1,9 @@
 # Review_Predictor
 
+## Description
+
+## Dependencies and Running
+
 pytorch, sklearn, spacy, pandas, possibly en_core_web_sm for spacy
 
 npm install for Modules
