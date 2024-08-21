@@ -21,11 +21,6 @@ def serve(path):
         return send_from_directory(app.static_folder, 'index.html')
 
 
-#TEsting server stuff
-@app.route("/<name>")
-def hello(name):
-    return f"Hello, {escape(name)}!" #Prevent script injecting
-
 # @app.route('/login', methods=['GET', 'POST'])
 # def login():
 #     if request.method == 'POST':
