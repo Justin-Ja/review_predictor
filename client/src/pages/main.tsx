@@ -18,6 +18,9 @@ function Main() {
 
   //TODO: probably move all calls to API into own file. That can be done later.
   const fetchData = () => {
+      setHasUserGuessed(false)
+      setSelectedStars(0)
+
       // Using fetch to fetch the api from 
       fetch("/data").then((res) =>
           res.json().then((data) => {
@@ -45,6 +48,8 @@ function Main() {
 
   // Calculates the user/model score based on how far off they are from the real score/label
   const calcScore = (realScore: number, pred_score: number, userGuess: number) =>  {
+    setHasUserGuessed(true)
+
     let modelDiff = Math.abs(realScore - pred_score)
     let userDiff = Math.abs(realScore - userGuess)
 
@@ -91,17 +96,26 @@ function Main() {
         </div>
       </>
 
-      <>
-        <p>{data.score}</p>
-        <p>{data.pred_score}</p>
-      </>
+ 
+      {hasUserGuessed ? (
+        <>
+          <p>The model predicted a <b>{data.pred_score.toFixed(2)} star</b> score</p>
+          <p>The actual score was given <b>{`${data.score} ${data.score === 1 ? 'star' : 'stars'}`}</b></p>
+        </>
+      ) : (
+        <p>
+          Guess to see the results
+        </p>
+      )}
       
       {/*TODO: Either disable buttons or hide one button at a time */}
-      if(hasUserGuessed){
-        <button onClick={() => calcScore(data.score, data.pred_score, selectedStars)}>Submit user Input</button>
-      } else{
-        <button onClick={fetchData}>Start/Next Prompt</button>
-      }
+      <div>
+        {hasUserGuessed ? (
+          <button onClick={fetchData}>Start/Next Prompt</button>
+        ) : (
+          <button onClick={() => calcScore(data.score, data.pred_score, selectedStars)}>Submit user Input</button>
+        )}
+      </div>
       
     </div>
   );
