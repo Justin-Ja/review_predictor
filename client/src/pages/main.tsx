@@ -4,7 +4,6 @@ import Header from '../components/Header';
 import StarCounter from '../components/StarInput';
 
 function Main() {
-
   const [data, setdata] = useState({
     text: "",
     score: 0,
@@ -96,7 +95,6 @@ function Main() {
         </div>
       </>
 
- 
       {hasUserGuessed ? (
         <>
           <p>The model predicted a <b>{data.pred_score.toFixed(2)} star</b> score</p>
