@@ -1,13 +1,14 @@
 import torch
+from torch.optim.lr_scheduler import StepLR
 import numpy as np
 from torch import nn
-from sklearn.metrics import mean_squared_error
 
 # Runs through the whole loop of training and testing a model
-def train_model(model: torch.nn.Module, train_dl, test_dl, epochs=10, lr=0.001, device: torch.device = 'cpu'):
+def train_model(model: torch.nn.Module, train_dl, test_dl, epochs=10, lr=0.01, device: torch.device = 'cpu'):
     parameters = filter(lambda p: p.requires_grad, model.parameters())
     optimizer = torch.optim.Adam(parameters, lr=lr)
-   
+    scheduler = StepLR(optimizer, step_size = (epochs/2), gamma = 0.1) # Reduces the learning rate by a factor of 10x halfway through training (epochs/2)
+
     for epoch in range(epochs):
         #Setup and set model to train
         model.train()
@@ -36,6 +37,8 @@ def train_model(model: torch.nn.Module, train_dl, test_dl, epochs=10, lr=0.001, 
             #Calc total loss for the batch
             sum_loss += loss.item()*y.shape[0]
             total += y.shape[0]
+
+        scheduler.step()
 
         test_loss = __test_model(model, test_dl)
 
