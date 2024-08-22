@@ -5,7 +5,7 @@ from .model_class import LSTM_regr
 
 def save_model(model: LSTM_regr) -> None:    
     # Create models directory 
-    MODEL_PATH = Path("models")
+    MODEL_PATH = Path("model_files/models")
     MODEL_PATH.mkdir(parents=True, exist_ok=True)
 
     # Create model save path 
