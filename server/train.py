@@ -63,16 +63,16 @@ engine.train_model(model_LSTM, train_dl, test_dl, epochs=EPOCHS, lr=LEARNING_RAT
 end = timer()
 
 print(f"Total training time: {end - start}")
+print("\n-------------------------")
 
 while True:
-    isSave = input("\nSave this model?\n(YOU CANNOT RECOVER THE CURRENT STATE OF THE MODEL IF YOU DO NOT SAVE)\nY/N: ").strip().lower()
+    print("\nSave this model?\n(YOU CANNOT RECOVER THE CURRENT STATE OF THE MODEL IF YOU DO NOT SAVE)\n")
+    isSave = input("Type \'save\' to save the model or \'exit\' to exit without saving:\n").strip().lower()
     
-    if isSave in ("y", "n"):
+    if isSave in ("save", "exit"):
         break
-    else:
-        print("Invalid input. Please enter 'Y' or 'N'.")
 
-if isSave.lower() == "y":
+if isSave == "save":
     utils.save_model(model_LSTM)
 else:
     print("Exiting without saving model...\n")
