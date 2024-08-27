@@ -75,7 +75,7 @@ function Main() {
       <Header/>
       {/* Any level divs should become components. For now keep here and transfer when planning is done. Also look into using fragments <> and 
       more accessible segments (not divs, section, nav, whatever else) */}
-      <>
+      <div className="container">
         <div>
           <p>
             {cleanText(data.text)}
@@ -93,26 +93,25 @@ function Main() {
         <div>
           AI Score: {scoreModel}
         </div>
-      </>
-
-      {hasUserGuessed ? (
-        <>
-          <p>The model predicted a <b>{data.pred_score.toFixed(2)} star</b> score</p>
-          <p>The actual score was given <b>{`${data.score} ${data.score === 1 ? 'star' : 'stars'}`}</b></p>
-        </>
-      ) : (
-        <p>
-          Guess to see the results
-        </p>
-      )}
-      
-      {/*TODO: Either disable buttons or hide one button at a time */}
-      <div>
         {hasUserGuessed ? (
-          <button onClick={fetchData}>Start/Next Prompt</button>
+          <>
+            <p>The model predicted a <b>{data.pred_score.toFixed(2)} star</b> score</p>
+            <p>The actual score was given <b>{`${data.score} ${data.score === 1 ? 'star' : 'stars'}`}</b></p>
+          </>
         ) : (
-          <button onClick={() => calcScore(data.score, data.pred_score, selectedStars)}>Submit user Input</button>
+          <p>
+            Guess to see the results
+          </p>
         )}
+        
+        {/*TODO: Either disable buttons or hide one button at a time */}
+        <div>
+          {hasUserGuessed ? (
+            <button onClick={fetchData}>Start/Next Prompt</button>
+          ) : (
+            <button onClick={() => calcScore(data.score, data.pred_score, selectedStars)}>Submit user Input</button>
+          )}
+        </div>
       </div>
       
     </div>
