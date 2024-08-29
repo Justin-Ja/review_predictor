@@ -15,7 +15,6 @@ function Main() {
   const [selectedStars, setSelectedStars] = useState(0)
   const [hasUserGuessed, setHasUserGuessed] = useState(false)
 
-  //TODO: probably move all calls to API into own file. That can be done later.
   const fetchData = () => {
       setHasUserGuessed(false)
       setSelectedStars(0)
@@ -104,7 +103,6 @@ function Main() {
           </p>
         )}
         
-        {/*TODO: Either disable buttons or hide one button at a time */}
         <div>
           {hasUserGuessed ? (
             <button onClick={fetchData}>Start/Next Prompt</button>
