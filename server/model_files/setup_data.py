@@ -26,10 +26,6 @@ class ReviewsDataset(Dataset):
     def __getitem__(self, idx):
         return torch.from_numpy(self.X[idx].astype(np.int32)), self.y[idx], self.X[idx][1]
 
-# def download_dataset():
-
-#     return train_file_path
-
 # Creates train/test dataloaders and returns it along with  vocab_size in a Tuple (vocab_size needed to create instance of LSTM guest)
 def create_dataLoaders(path: Path,
                     batch_size: int = 5000,
