@@ -72,8 +72,12 @@ def create_dataLoaders(path: Path,
         vocab_index_dict[word] = len(words)
         words.append(word)
 
-    # Adding column to dataframe for encoded version of text
-    train_df['encoded'] = train_df['text'].apply(lambda x: np.array(encode_sentence(x, vocab_index_dict, tok, int(train_df['review_length'].iloc[0]))[0]))
+    # Adding column to dataframe for length of review
+    train_df['review_length'] = train_df['text'].apply(lambda x: len(x.split()))
+
+    # Adding column of the encoded text, encoding useing vocab_index_dict and the length of the review
+    # REVIEW: DO we want to keep the review_length avg here? Do we even use the avg here? Double check this ^ and v
+    train_df['encoded'] = train_df['text'].apply(lambda x: np.array(encode_sentence(x, vocab_index_dict, tok, N = int(train_df['review_length'].iloc[0]))[0]))
 
     print("Total count of each star rating (0-4):")
     print(Counter(train_df['label']))

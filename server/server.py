@@ -2,7 +2,7 @@ from flask import Flask, request, render_template, send_from_directory
 from markupsafe import escape
 from get_review_score_and_prediction import get_review_score_pred
 import os
-from CONSTANTS import MODEL_NAME, TEST_FILE_PATH
+from CONSTANTS import MODEL_NAME, MODEL_PATH
 #flask --app server/server.py run
 #use python3 server.py
 
@@ -32,7 +32,7 @@ def serve(path):
 
 @app.route('/data')
 def get_data():
-    result = get_review_score_pred(MODEL_NAME)
+    result = get_review_score_pred(MODEL_NAME, MODEL_PATH)
     return result
 
 if __name__ == "__main__":

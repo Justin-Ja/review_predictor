@@ -1,20 +1,17 @@
 import torch
 import pandas as pd
-from model_files import setup_data, utils
-from pathlib import Path
 import numpy as np
 import spacy 
+from pathlib import Path
 from collections import Counter
-
-#TODO: Move out to server handling this
-MODEL_PATH = Path('server/model_files/models')
-TEST_FILE_PATH = 'server/model_files/data/test-00000-of-00001.parquet'
+from model_files import setup_data, utils
+from CONSTANTS import TEST_FILE_PATH
 
 # Returns an object containing a review's text, label (score) and the predicted score
 # Assumes that model_name ends with .pth or .pt, should be a constant value that is passed in.
-def get_review_score_pred(model_name: str):
+def get_review_score_pred(model_name: str, model_path: Path):
 
-    loaded_model_LSTM_regression = utils.load_model_LSTM_regr(model_name, MODEL_PATH)
+    loaded_model_LSTM_regression = utils.load_model_LSTM_regr(model_name, model_path)
 
     subset = _get_encoded_review(TEST_FILE_PATH)
 
@@ -54,7 +51,7 @@ def _get_encoded_review(file_path):
     for _, row in subset.iterrows():
             counts.update(setup_data.tokenize(tok, row['text']))
 
-    # TODO: If we're only passing in one review, do we want to remove uncommon words? we cut a review with 110 words to 35, might mess with results
+    # REVIEW: If we're only passing in one review, do we want to remove uncommon words? we cut a review with 110 words to 35, might mess with results
     # for word in list(counts):
     #     if counts[word] < 2:
     #         del counts[word]

@@ -8,7 +8,6 @@ import argparse
 from typing import Final
 from CONSTANTS import TRAIN_FILE_PATH
 
-#TODO: Import argparse and set that up after testing
 parser = argparse.ArgumentParser(prog="\nA ML script to prepare data and train a LSTM language model, with potential to save it\n")
 
 parser.add_argument('-e', '--epochs', help='The number of loops should the model train and test for', 
