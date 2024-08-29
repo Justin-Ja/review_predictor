@@ -1,9 +1,9 @@
 import React from 'react';
 
-function Header() {
+function Header(text: string) {
   return (
     <>
-      <button>Review Guessing Game</button>
+      <button>{text}</button>
     </>
   );
 }
