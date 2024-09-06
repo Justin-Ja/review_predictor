@@ -2,7 +2,13 @@
 
 ## Description
 
-## Dependencies and Running
+This is a machine learning, web application that allows the user to play against an trained model to predict the review score based off of its text alone. The player and model score a point when they are close to the actual score (within one point range) and gain more points when they are spot on.
+
+## A Quick Note
+
+This project is functional, however it still is a WIP (as is this mess of a README file). You can play against the AI to predict review scores, however the front-end (while functional) needs further UI/UX updates.
+
+### Dependencies and Running
 
 pytorch, sklearn, spacy, pandas, possibly en_core_web_sm for spacy
 
