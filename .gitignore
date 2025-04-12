@@ -162,3 +162,5 @@ cython_debug/
 #Personal additions
 temp*
 server/model_files/models/*
+client/public/favicon.ico
+client/public/logo512.png
