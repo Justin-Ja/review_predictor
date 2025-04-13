@@ -51,7 +51,7 @@ train_dl = dataLoaders_and_vocab[0]
 test_dl = dataLoaders_and_vocab[1]
 vocab_size = dataLoaders_and_vocab[2]
 
-#print(vocab_size)
+print(vocab_size)
 
 model_LSTM = model_class.LSTM_regr(vocab_size, HIDDEN_UNITS, HIDDEN_UNITS, dropout = DROPOUT, hidden_layers = 1)
 

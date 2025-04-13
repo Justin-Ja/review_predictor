@@ -8,8 +8,8 @@ from collections import Counter
 from setup_data import encode_sentence
 
 # This file is not used directly in the server/frontend component of the app
-# This is for final testing of trained models to test the model more closely to what happens in the app
-# See get_review_score_and_prediction for 
+# See get_review_score_and_prediction for the actual server code that is used to get the review score and prediction
+# This file is used to test the model after training, mainly for development purposes only
 
 #Setup data reading and model loading
 torch.manual_seed(42)

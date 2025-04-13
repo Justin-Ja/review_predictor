@@ -12,6 +12,7 @@ app = Flask(__name__,
             static_folder='../client/build',
             template_folder='build')
 
+# IDK do some fixing to just make this serve only the index.html. That way Router on FE can handle pathing
 @app.route("/", defaults={'path': ''})
 @app.route("/<path:path>")
 def serve(path):
