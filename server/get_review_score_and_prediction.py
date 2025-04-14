@@ -11,6 +11,8 @@ from CONSTANTS import TEST_FILE_PATH
 # Assumes that model_name ends with .pth or .pt, should be a constant value that is passed in.
 def get_review_score_pred(model_name: str, model_path: Path):
 
+#TODO: We're loading this in every time we hit the API path. We can probably load this once and then just use it to improve performance
+#Also should add some form of error handling for if the model doesn't exist :p
     loaded_model_LSTM_regression = utils.load_model_LSTM_regr(model_name, model_path)
 
     subset = _get_encoded_review(TEST_FILE_PATH)
