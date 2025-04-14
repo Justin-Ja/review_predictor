@@ -42,9 +42,15 @@ Running ```python3 server.py``` in the server file will activate the server
 
 (No affiliation with How to Train your Dragon, unfortunately.)
 
-Use train.py in the server folder
+Use the train.py file in the server folder to train new ML models.
 
-ADD MORE!!!
+```bash
+python3 train.py
+```
+
+There are several parameters that can be passed in to fine tune your training. To see all possible arguments, run train.py with the `-h` flag to see all arguments.
+Not all arguments need to be supplied a value by the user, and the program will default to selected values if not provided one.
+Once done training, you can save the model and use it in the application by following the below section. If you choose _not_ to save the model **it cannot be recovered and will be lost**.
 
 ### Using Different Models
 
@@ -54,6 +60,6 @@ A future update will aim to upgrade this to an argument passed on project start 
 
 ## Notes
 
-This project is functional, however it still is a WIP (as is this mess of a README file). You can play against the AI to predict review scores.
+This project is functional, however it still is a WIP (as is this [slightly less messy than before] README file).
 The UI has received updates, the only other main frontend task is adding an info page
-Plus some TODO's in the backend for further QOL
+Plus some TODO's in the backend for further QOL before I'd consider this project fully complete
