@@ -10,10 +10,10 @@ function App() {
       <Routes>
         <Route path="/info" element={<Info/>} />
         <Route path="/" element={<Main/>} />
-        <Route path="*" element={<Info/>}/>
-
+        <Route path="*" element={<Main/>}/>
       </Routes>
     </Router>
-  )};
+  )
+};
 
 export default App;

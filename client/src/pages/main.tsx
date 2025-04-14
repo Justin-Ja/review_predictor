@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import '../styles/App.css'; 
-import Header from '../components/Header';
+import Title from '../components/Title';
 import StarCounter from '../components/StarInput';
+import GameButton from '../components/GameButton';
+import Header from '../components/Header';
 
 function Main() {
   const [data, setdata] = useState({
@@ -19,10 +21,10 @@ function Main() {
       setHasUserGuessed(false)
       setSelectedStars(0)
 
-      // Using fetch to fetch the api from 
+      // Using fetch to fetch the from api
       fetch("/data").then((res) =>
           res.json().then((data) => {
-              // Setting a data from api
+              // Setting data from api
               setdata({
                   text: data.text,
                   score: data.score,
@@ -33,10 +35,7 @@ function Main() {
   };
   
   //On load, fetchData. Since there are no dependencies, this will only run once.
-  useEffect(
-    fetchData,
-    []
-  )
+  useEffect(fetchData, []);
 
   // Removed certain strings from input: "\n" and ' \" '
   const cleanText = (input: string) => {
@@ -57,7 +56,7 @@ function Main() {
       setScoreUser(scoreUser => scoreUser + 1)
     }
 
-    if (modelDiff <= 0.333){
+    if (modelDiff <= 0.34){
       setScoreModel(scoreModel => scoreModel + 2)
     } else if(modelDiff <= 1){
       setScoreModel(scoreModel => scoreModel + 1)
@@ -66,12 +65,9 @@ function Main() {
 
   return (
     <div className="App">
-      <header>
-        {/* HEADER -> Should be some form of nav bar/navigation */}
-        
-        <a href='/info'>Links here</a>
-      </header>
       <Header/>
+      <Title text={"Review Guessing Game"}/>
+
       {/* Any level divs should become components. For now keep here and transfer when planning is done. Also look into using fragments <> and 
       more accessible segments (not divs, section, nav, whatever else) */}
       <div className="container">
@@ -84,6 +80,7 @@ function Main() {
         <StarCounter
           selectedStars={selectedStars}
           setSelectedStars={setSelectedStars}
+          hasUserGuessed={hasUserGuessed}
         />
 
         <div>
@@ -95,7 +92,7 @@ function Main() {
         {hasUserGuessed ? (
           <>
             <p>The model predicted a <b>{data.pred_score.toFixed(2)} star</b> score</p>
-            <p>The actual score was given <b>{`${data.score} ${data.score === 1 ? 'star' : 'stars'}`}</b></p>
+            <p>The actual review was given <b>{`${data.score} ${data.score === 1 ? 'star' : 'stars'}`}</b></p>
           </>
         ) : (
           <p>
@@ -105,13 +102,19 @@ function Main() {
         
         <div>
           {hasUserGuessed ? (
-            <button onClick={fetchData}>Start/Next Prompt</button>
+            <GameButton 
+              isSubmit={false}
+              onClick={fetchData} 
+            />
           ) : (
-            <button onClick={() => calcScore(data.score, data.pred_score, selectedStars)}>Submit user Input</button>
+            <GameButton 
+              isSubmit={true}
+              onClick={() => calcScore(data.score, data.pred_score, selectedStars)} 
+              disabled={!selectedStars} 
+            />
           )}
         </div>
       </div>
-      
     </div>
   );
 }
