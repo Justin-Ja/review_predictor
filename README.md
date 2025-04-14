@@ -30,11 +30,11 @@ chmod +x run.sh
 
 For development purposes there are other options to run parts of the application
 
-Running ```npm run build``` to rebuild the frontend files.
+Running `npm run build` to rebuild the frontend files.
 
-Running ```npm start``` to quickly test/dev the frontend
+Running `npm start` to quickly test/dev the frontend
 
-Running ```python3 server.py``` in the server file will activate the server
+Running `python3 server.py` in the server file will activate the server
 
 ## Training and Using New Models
 
@@ -42,7 +42,7 @@ Running ```python3 server.py``` in the server file will activate the server
 
 (No affiliation with How to Train your Dragon, unfortunately.)
 
-Use the train.py file in the server folder to train new ML models.
+Use the `train.py` file in the server folder to train new ML models.
 
 ```bash
 python3 train.py
