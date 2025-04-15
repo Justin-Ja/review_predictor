@@ -1,3 +1,4 @@
+import argparse
 import torch
 import pandas as pd
 from setup_data import create_dataLoaders
@@ -10,6 +11,14 @@ from setup_data import encode_sentence
 # This file is not used directly in the server/frontend component of the app
 # See get_review_score_and_prediction for the actual server code that is used to get the review score and prediction
 # This file is used to test the model after training, mainly for development purposes only
+
+parser = argparse.ArgumentParser(prog="\nA ML script to quickly test how a model performs across a small number of \n")
+
+parser.add_argument('-r', '--random', help='Boolean to determine if subsets created should be randomized. True is randomized subset elements, false is constant subset elements\n', 
+                    default=False, type=bool)
+
+args = parser.parse_args()
+RANDOMIZE: bool = args.random
 
 #Setup data reading and model loading
 torch.manual_seed(42)
@@ -26,12 +35,9 @@ loaded_model_LSTM_regression = load_model_LSTM_regr(model_name, MODEL_PATH)
 
 test_file_path = 'data/test-00000-of-00001.parquet'
 
-#TODO: Argparse the subset % and randomization. 
 # We set batch size to 1 since batch size is needed in training but we only want to view 10 or less reviews to see how the model is doing
-dataLoaders_and_vocab = create_dataLoaders(test_file_path, 1, 0.25, 0.00025, True)
+dataLoaders_and_vocab = create_dataLoaders(test_file_path, 1, 0.25, 0.00025, RANDOMIZE)
 test_dl = dataLoaders_and_vocab[1]
-
-
 
 # Need to create a test_subset pd to be able to access/print the review and label that was evaluated
 # This does require a little bit of repeated processing.
@@ -66,6 +72,7 @@ with torch.inference_mode():
     i = 0
     sum_loss = 0
     sum_rmse = 0 # Root mean squared error
+    
     for x,y,l in test_dl:
         x = x.long()
         y = y.long()
