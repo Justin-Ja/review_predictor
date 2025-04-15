@@ -4,7 +4,7 @@ import numpy as np
 import spacy 
 from pathlib import Path
 from collections import Counter
-from model_files import setup_data, utils
+from model_files import setup_data
 from CONSTANTS import TEST_FILE_PATH
 
 # Returns an object containing a review's text, label (score) and the predicted score
