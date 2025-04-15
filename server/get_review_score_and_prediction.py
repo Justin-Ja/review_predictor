@@ -9,11 +9,11 @@ from CONSTANTS import TEST_FILE_PATH
 
 # Returns an object containing a review's text, label (score) and the predicted score
 # Assumes that model_name ends with .pth or .pt, should be a constant value that is passed in.
-def get_review_score_pred(model_name: str, model_path: Path):
+def get_review_score_pred(loaded_model: torch.nn.Module):
 
 #TODO: We're loading this in every time we hit the API path. We can probably load this once and then just use it to improve performance
 #Also should add some form of error handling for if the model doesn't exist :p
-    loaded_model_LSTM_regression = utils.load_model_LSTM_regr(model_name, model_path)
+    # loaded_model_LSTM_regression = utils.load_model_LSTM_regr(model_name, model_path)
 
     subset = _get_encoded_review(TEST_FILE_PATH)
 
@@ -27,8 +27,8 @@ def get_review_score_pred(model_name: str, model_path: Path):
 
     # Get predicted value from review_text
     with torch.inference_mode():
-        loaded_model_LSTM_regression.eval()
-        pred_score = loaded_model_LSTM_regression(input_tensor, torch.tensor([input_length]))
+        loaded_model.eval()
+        pred_score = loaded_model(input_tensor, torch.tensor([input_length]))
         pred_score = (pred_score.item() + 1) # Convert back to 1-5 scale
     
     return {

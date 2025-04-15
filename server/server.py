@@ -3,6 +3,7 @@ from markupsafe import escape
 from get_review_score_and_prediction import get_review_score_pred
 import os
 from CONSTANTS import MODEL_NAME, MODEL_PATH
+from model_files import utils
 #flask --app server/server.py run
 #use python3 server.py
 
@@ -11,6 +12,8 @@ app = Flask(__name__,
             static_url_path='',
             static_folder='../client/build',
             template_folder='build')
+
+loaded_model_LSTM_regression = utils.load_model_LSTM_regr(MODEL_NAME, MODEL_PATH)
 
 # IDK do some fixing to just make this serve only the index.html. That way Router on FE can handle pathing
 @app.route("/", defaults={'path': ''})
@@ -33,7 +36,7 @@ def serve(path):
 
 @app.route('/data')
 def get_data():
-    result = get_review_score_pred(MODEL_NAME, MODEL_PATH)
+    result = get_review_score_pred(loaded_model_LSTM_regression)
     return result
 
 if __name__ == "__main__":
