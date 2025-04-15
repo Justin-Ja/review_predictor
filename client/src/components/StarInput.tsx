@@ -16,8 +16,14 @@ const StarCounter: React.FC<StarCounterProps> = ({selectedStars, setSelectedStar
     }
   };
 
+  //Adds a testid to each star
+  const CustomIconContainer = ({ value, ...other }: { value: number }) => (
+    <span data-testid={`star-${value}`} {...other} />
+  );
+
   return (
     <Rating
+      data-testid="star-rating"
       name="star-rating"
       value={selectedStars}
       onChange={handleChange}
@@ -26,6 +32,7 @@ const StarCounter: React.FC<StarCounterProps> = ({selectedStars, setSelectedStar
       readOnly={hasUserGuessed}
       icon={<StarIcon fontSize="inherit" sx={{ color: '#FFD700' }} />}
       emptyIcon={<StarBorderIcon fontSize="inherit" />}
+      IconContainerComponent={CustomIconContainer}
       sx={{
         '& .MuiRating-iconFilled': {
           color: '#FFD700',

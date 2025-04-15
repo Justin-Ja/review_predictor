@@ -28,6 +28,7 @@ const GameButton: React.FC<GameButtonProps> = ({ onClick, isSubmit, disabled = f
 
   return (
     <Button
+      data-testid="game-button"
       variant="contained"
       color={isSubmit ? "primary" : "success"}
       onClick={onClick}
