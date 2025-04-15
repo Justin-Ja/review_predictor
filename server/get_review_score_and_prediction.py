@@ -11,10 +11,6 @@ from CONSTANTS import TEST_FILE_PATH
 # Assumes that model_name ends with .pth or .pt, should be a constant value that is passed in.
 def get_review_score_pred(loaded_model: torch.nn.Module):
 
-#TODO: We're loading this in every time we hit the API path. We can probably load this once and then just use it to improve performance
-#Also should add some form of error handling for if the model doesn't exist :p
-    # loaded_model_LSTM_regression = utils.load_model_LSTM_regr(model_name, model_path)
-
     subset = _get_encoded_review(TEST_FILE_PATH)
 
     #Extract all needed values from the dataframe
@@ -39,7 +35,7 @@ def get_review_score_pred(loaded_model: torch.nn.Module):
         
 
 # This function gets a review and gets the encoded version of said review for ML evaluation
-# See setup_data.py for more detail on what is happening
+# See setup_data.py for more detail - this file does a similar setup, but that file has more details/comments
 # We want only one review, as every time we want a new review/round, we can just hit the related endpoint and run this again
 def _get_encoded_review(file_path):
     test_df = pd.read_parquet(file_path)
