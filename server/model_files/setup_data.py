@@ -90,6 +90,7 @@ def create_dataLoaders(path: Path,
     vocab_size = len(words)
 
     NUM_WORKERS = os.cpu_count() - 2 # Don't want to use all CPU cores on training (Trying not to obliterate my computer, ideally)
+                        #TODO: Past me is a dumbass remove the -2
     if NUM_WORKERS < 1:
         NUM_WORKERS = 1
     
