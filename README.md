@@ -8,9 +8,11 @@ This is a machine learning, web application that allows the user to play against
 
 ### Installing Dependencies
 
-pytorch, sklearn, spacy, pandas, possibly en_core_web_sm for spacy
+Running the following will install everything needed for both python and npm packages:
 
-npm install for Node Modules
+``` #bash
+make setup
+```
 
 ![Link to dataset](https://huggingface.co/datasets/Yelp/yelp_review_full)
 
@@ -19,13 +21,7 @@ npm install for Node Modules
 To launch the full application, run the following command at the root folder of the project:
 
 ```bash
-./run.sh
-```
-
-The bash file may need execution privilges in order to run properly. The below command will apply said privileges (You may need to 'sudo' the command):
-
-```bash
-chmod +x run.sh
+make run
 ```
 
 For development purposes there are other options to run parts of the application
