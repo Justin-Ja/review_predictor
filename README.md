@@ -14,11 +14,9 @@ Running the following will install everything needed for both python and npm pac
 make setup
 ```
 
-![Link to dataset](https://huggingface.co/datasets/Yelp/yelp_review_full)
-
 ### Running the Program
 
-To launch the full application, run the following command at the root folder of the project:
+To launch the full application, run the following command at the root folder of the project, along with setting up a venv for the server. Note that this will take a few minutes to complete:
 
 ```bash
 make run
@@ -36,7 +34,7 @@ Running `python3 server.py` in the server file will activate the server
 
 ### How to Train Your Model
 
-(No affiliation with How to Train your Dragon, unfortunately.)
+(No affiliation with How to Train your Dragon)
 
 Use the `train.py` file in the server folder to train new ML models.
 
@@ -54,8 +52,23 @@ Currently the model used is handled i the CONSTANTS.py file. To use a model, upd
 
 A future update will aim to upgrade this to an argument passed on project start or handled in the UI itself
 
-## Notes
+### Dataset used
 
-This project is functional, however it still is a WIP (as is this [slightly less messy than before] README file).
-The UI has received updates, the only other main frontend task is adding an info page
-Plus some TODO's in the backend for further QOL before I'd consider this project fully complete
+As of writing, I have not included a proper way to get the training set to others, since its too big for github. (I plan on fixing that soon)
+For now use the following link, and extract files into the server/model_files/data.
+It should be two files:
+test-00000-of-00001.parquet
+train-00000-of-00001.parquet
+
+![Link to dataset](https://huggingface.co/datasets/Yelp/yelp_review_full)
+
+## Future Plans
+
+* Venv currently breaks the app. I'm working on it
+* Add a make command to download the dataset I used.
+* Fix TechDebt (TODOs) to ensure code quality is up to date
+* Include more test files for the frontend. Perhaps the back end as well.
+* Allow users to swap what model is being used during run time
+* Look into future feature updates
+  * Get this project hosted online so people can try it out without having to build the project
+  * A database to save scores, and a scoreboard would be nice
