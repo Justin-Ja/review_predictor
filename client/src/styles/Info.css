@@ -1,0 +1,40 @@
+.info-container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.info-section {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.info-section:last-child {
+  border-bottom: none;
+}
+
+.info-section h2 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+  color: #111;
+}
+
+.info-section p {
+  font-size: 0.97rem;
+  line-height: 1.7;
+  margin-bottom: 0.75rem;
+  color: #333;
+}
+
+.info-section p:last-child {
+  margin-bottom: 0;
+}
+
+.edge-box {
+  background: #fffdf0;
+  border: 1px solid #e8d870;
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+}
