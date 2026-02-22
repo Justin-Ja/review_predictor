@@ -64,8 +64,7 @@ train-00000-of-00001.parquet
 
 ## Future Plans
 
-* Venv currently breaks the app. I'm working on it
-* Add a make command to download the dataset I used.
+* Add a make command to download the dataset used instead of manually
 * Fix TechDebt (TODOs) to ensure code quality is up to date
 * Include more test files for the frontend. Perhaps the back end as well.
 * Allow users to swap what model is being used during run time
