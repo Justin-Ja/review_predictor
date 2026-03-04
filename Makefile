@@ -8,8 +8,5 @@ setup:
 	cd client && npm install
 
 run:
-#God i fucked something up. apps broken if using the venv python. im working on it.  sorry
-#./server/venv/bin/python3 server/server.py
 	cd client && npm run build && cd ..
 	./server/venv/bin/python3 server/server.py
-#python3 server/server.py
